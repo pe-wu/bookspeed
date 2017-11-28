@@ -8,6 +8,7 @@ public class Bookspeed {
 
     public static void main(String[] args) throws BookNotFoundException, InterruptedException {
         int booksNumber = 100000;
+        if ((args.length != 0)) booksNumber = Integer.parseInt(args[0]);
         System.out.println("Adding " + booksNumber + " books...");
 
         for (int i = 0; i<booksNumber; i++) {
@@ -18,7 +19,6 @@ public class Bookspeed {
         books.add(new Book(new BookDetails("ISBN2", "author2", "Special Title")));
         System.out.println((booksNumber+1) + " special book added!");
 
-        Thread.sleep(1000);
         System.out.println("3...");
         Thread.sleep(1000);
         System.out.println("2...");
@@ -27,11 +27,21 @@ public class Bookspeed {
         Thread.sleep(1000);
 
         System.out.println("Looking for special book in O(n)...");
-        Book specialBook = Book.getBookByTitle(books, "Special Title");
+        Book specialBook = getBookByTitle("Special Title");
 
         if (specialBook != null) {
             System.out.println(specialBook.getBookDetails().getTitle());
         }
+    }
+
+
+    private static Book getBookByTitle(String bookname) throws BookNotFoundException {
+        for (Book book : books) {
+            if (book.getBookDetails().getTitle().equals(bookname)) {
+                return book;
+            }
+        }
+        throw new BookNotFoundException();
     }
 
     private static class Book {
@@ -44,19 +54,9 @@ public class Bookspeed {
             this.borrowsIndex = 0;
         }
 
-        static Book getBookByTitle(ArrayList<Book> booksList, String bookname) throws BookNotFoundException {
-            for (Book book : booksList) {
-                if (book.getBookDetails().getTitle().equals(bookname)) {
-                    return book;
-                }
-            }
-            throw new BookNotFoundException();
-        }
-
         BookDetails getBookDetails() {
             return bookDetails;
         }
-
     }
 
     private static class BookDetails {
