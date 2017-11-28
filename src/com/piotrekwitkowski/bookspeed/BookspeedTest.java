@@ -2,7 +2,7 @@ package com.piotrekwitkowski.bookspeed;
 
 import java.util.ArrayList;
 
-public class Bookspeed {
+public class BookspeedTest {
 
     private static ArrayList<Book> books = new ArrayList<>();
 
